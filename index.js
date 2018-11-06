@@ -1,6 +1,8 @@
 import app from './config/express';
 
-app.listen(3000, () => {
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
   console.log('API Server started and listening on port 3000');
 });
 
