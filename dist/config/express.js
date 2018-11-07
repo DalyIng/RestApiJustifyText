@@ -17,3 +17,4 @@ app.get('/', function (req, res) {
 });
 
 exports.default = app;
+module.exports = exports['default'];

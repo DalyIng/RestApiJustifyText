@@ -1,9 +1,10 @@
-import app from './config/express';
+import app from "./config/express";
+import config from "./config/env";
 
-const PORT = process.env.PORT || 3000;
-
-app.listen(PORT, () => {
-  console.log('API Server started and listening on port 3000');
+app.listen(config.port, () => {
+  console.log(
+    `API Server started and listening on port ${config.port} (${config.env})`
+  );
 });
 
 export default app;
