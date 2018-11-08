@@ -1,18 +1,18 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _express = require('express');
+var _express = require("express");
 
 var _express2 = _interopRequireDefault(_express);
 
-var _bodyParser = require('body-parser');
+var _bodyParser = require("body-parser");
 
 var _bodyParser2 = _interopRequireDefault(_bodyParser);
 
-var _routes = require('../server/routes');
+var _routes = require("../server/routes");
 
 var _routes2 = _interopRequireDefault(_routes);
 
@@ -24,7 +24,13 @@ app.use(_bodyParser2.default.json());
 app.use(_bodyParser2.default.urlencoded({ extended: true }));
 //app.use(bodyParser.text({ type: text/plain }));
 //app.get('/', (req, res) => res.send('Hello, this is API and I\'m ok!'));
-app.use('/api', _routes2.default);
+app.use("/api", _routes2.default);
+app.use(function (err, req, res, next) {
+  res.status(err.status).json({
+    status: err.status,
+    message: err.message
+  });
+});
 
 exports.default = app;
-module.exports = exports['default'];
+module.exports = exports["default"];
