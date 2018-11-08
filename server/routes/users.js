@@ -4,11 +4,11 @@ import userCtrl from '../controllers/users';
 const router = express.Router();
 
 /** GET /api-status - Check service status **/
-router.get('/api-status', (req, res) =>
+/*router.get('/api-status', (req, res) =>
   res.json({
     status: "ok"
   })
-);
+);*/
 
 router.route('/')
   /** GET /api/users - Get list of users */
