@@ -51,7 +51,29 @@ function textJustification(words, L) {
   return lines;
 }
 
-function justify(req, res) { 
+function limit(req, res, next) {
+  var text = req.body.text;
+  var numberWords = text.trim().split(/\s+/).length;
+  Token.findOne(
+    {
+      token: req.headers.authorization.substring(7)
+    },
+    { words: true }
+  )
+    .exec()
+    .then(result => {
+      if (result.words + numberWords < 350) {
+        return next();
+      } else {
+        res.status(402).json({
+          message: "By this request, you will pass the limit of 80000 words",
+          error: "Payment Required"
+        });
+      }
+    });
+}
+
+function justify(req, res) {
   //console.log(req.body.text);
   var token = req.headers.authorization.substring(7);
 
@@ -103,4 +125,4 @@ function justify(req, res) {
   res.send(justifiedText);
 }
 
-export default { justify };
+export default { justify, limit };
