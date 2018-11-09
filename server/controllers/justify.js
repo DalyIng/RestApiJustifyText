@@ -1,3 +1,5 @@
+import Token from "../models/token";
+
 function textJustification(words, L) {
   let lines = [],
     index = 0;
@@ -49,20 +51,55 @@ function textJustification(words, L) {
   return lines;
 }
 
-function justify(req, res) {
+function justify(req, res) { 
   //console.log(req.body.text);
+  var token = req.headers.authorization.substring(7);
+
+  Token.findOne(
+    // query
+    { token: token },
+
+    // Only return an object with the "name" and "owner" fields. "_id"
+    // is included by default, so you'll need to remove it if you don't want it.
+    { words: true },
+
+    // callback function
+    (err, result) => {
+      if (err) {
+        console.log("WRONG");
+      } else {
+        console.log(result);
+      }
+    }
+  );
   var text = req.body.text;
   var words = text.split(" ");
-  console.log(words);
+  //console.log(words);
   var numberWords = text.trim().split(/\s+/).length;
-  console.log(numberWords);
+  //console.log(numberWords);
   var textLength = text.length;
-  console.log(textLength);
+  //console.log(textLength);
   var justifiedTextList = textJustification(words, 80);
-  console.log(justifiedTextList);
+  //console.log(justifiedTextList);
   var justifiedText = justifiedTextList.join("\n");
-  console.log(justifiedText);
-  res.set('Content-Type', 'text/plain');
+  //console.log(justifiedText);
+  //console.log(token);
+  var query = { token: token };
+  Token.findOneAndUpdate(
+    query,
+    { $inc: { words: numberWords } },
+    {
+      new: true
+    },
+    (err, doc) => {
+      if (err) {
+        console.log("Something wrong when updating data!");
+      }
+
+      console.log(doc);
+    }
+  );
+  res.set("Content-Type", "text/plain");
   res.send(justifiedText);
 }
 

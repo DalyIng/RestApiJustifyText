@@ -22,7 +22,6 @@ function get(req, res) {
 }
 
 function create(req, res, next) {
-  console.log(req.body.text);
   User.create({
     username: req.body.username,
     password: req.body.password

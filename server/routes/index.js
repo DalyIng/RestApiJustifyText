@@ -3,6 +3,7 @@ import userRoutes from './users';
 import taskRoutes from './tasks';
 import justifyRoutes from './justify';
 import authRoutes from './auth';
+import tokenRoutes from './token';
 
 const router = express.Router();
 
@@ -17,5 +18,6 @@ router.use('/users', userRoutes);
 router.use('/tasks', taskRoutes);
 router.use('/justify', justifyRoutes);
 router.use('/auth', authRoutes);
+router.use('/token', tokenRoutes);
 
 export default router;
