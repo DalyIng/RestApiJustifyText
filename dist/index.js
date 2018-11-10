@@ -16,18 +16,44 @@ var _mongoose = require("mongoose");
 
 var _mongoose2 = _interopRequireDefault(_mongoose);
 
+var _nodeCron = require("node-cron");
+
+var _nodeCron2 = _interopRequireDefault(_nodeCron);
+
+var _token = require("./server/models/token");
+
+var _token2 = _interopRequireDefault(_token);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var _MS_PER_TIME = 1000 * 60 * 60 * 24;
+
+_nodeCron2.default.schedule("* * * * * *", function () {
+  var d = new Date();
+  _token2.default.find({}, { created_at: 1 }).exec(function (err, tokens) {
+    if (err || tokens == undefined || tokens.length == 0) ;else {
+      tokens.forEach(function (token) {
+        var seconds = (d.getTime() - token.created_at.getTime()) / 1000;
+        console.log(seconds);
+        if (seconds > _MS_PER_TIME) {
+          _token2.default.findOneAndUpdate({ _id: token._id }, { $currentDate: { created_at: true } }).exec();
+          _token2.default.findOneAndUpdate({ _id: token._id }, { $set: { words: 0 } }).exec();
+        } else {}
+      });
+    }
+  });
+});
+
 _mongoose2.default.connect(_env2.default.db);
-_mongoose2.default.connection.on('error', function () {
+_mongoose2.default.connection.on("error", function () {
   throw new Error("unable to connect to database: " + _env2.default.db);
 });
-_mongoose2.default.connection.on('connected', function () {
+_mongoose2.default.connection.on("connected", function () {
   console.log("Connected to database: " + _env2.default.db);
 });
 
-if (_env2.default.env === 'development') {
-  _mongoose2.default.set('debug', true);
+if (_env2.default.env === "development") {
+  _mongoose2.default.set("debug", true);
 }
 _express2.default.listen(_env2.default.port, function () {
   console.log("API Server started and listening on port " + _env2.default.port + " (" + _env2.default.env + ")");

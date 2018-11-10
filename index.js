@@ -1,17 +1,46 @@
 import app from "./config/express";
 import config from "./config/env";
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
+import cron from "node-cron";
+import Token from "./server/models/token";
+
+const _MS_PER_TIME = 1000 * 60 * 60 * 24;
+
+cron.schedule("* * * * * *", function() {
+  const d = new Date();
+  Token.find({}, { created_at: 1 }).exec((err, tokens) => {
+    if (err || tokens == undefined || tokens.length == 0);
+    else {
+      tokens.forEach(token => {
+        var seconds = (d.getTime() - token.created_at.getTime()) / 1000;
+        console.log(seconds);
+        if (seconds > _MS_PER_TIME) {
+          Token.findOneAndUpdate(
+            { _id: token._id },
+            { $currentDate: { created_at: true} }
+          ).exec();
+          Token.findOneAndUpdate(
+            { _id: token._id },
+            { $set: { words: 0 } }
+          ).exec();
+          
+        } else {
+        }
+      });
+    }
+  });
+});
 
 mongoose.connect(config.db);
-mongoose.connection.on('error', () => {
+mongoose.connection.on("error", () => {
   throw new Error(`unable to connect to database: ${config.db}`);
 });
-mongoose.connection.on('connected', () => {
+mongoose.connection.on("connected", () => {
   console.log(`Connected to database: ${config.db}`);
 });
 
-if (config.env === 'development') {
-  mongoose.set('debug', true);
+if (config.env === "development") {
+  mongoose.set("debug", true);
 }
 app.listen(config.port, () => {
   console.log(

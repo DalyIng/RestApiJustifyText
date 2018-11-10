@@ -8,7 +8,8 @@ const TokenSchema = new mongoose.Schema({
   words: {
     type: Number,
     required: false
-  }
+  },
+  created_at: { type: Date, default: Date.now }
 });
 
 export default mongoose.model("Token", TokenSchema);

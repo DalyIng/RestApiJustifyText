@@ -22,8 +22,6 @@ var app = (0, _express2.default)();
 
 app.use(_bodyParser2.default.json());
 app.use(_bodyParser2.default.urlencoded({ extended: true }));
-//app.use(bodyParser.text({ type: text/plain }));
-//app.get('/', (req, res) => res.send('Hello, this is API and I\'m ok!'));
 app.use("/api", _routes2.default);
 app.use(function (err, req, res, next) {
   res.status(err.status).json({
