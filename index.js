@@ -6,6 +6,7 @@ import Token from "./server/models/token";
 
 /** Run this script every ... minutes! */
 cron.schedule(`*/${config.TimeOfScript} * * * * `, function() {
+  console.log(config.TimeOfScript);
   const d = new Date();
   Token.find({}, { created_at: 1 }).exec((err, tokens) => {
     if (err || tokens == undefined || tokens.length == 0);
