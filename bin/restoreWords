@@ -11,9 +11,7 @@ const d = new Date();
     if (err || tokens == undefined || tokens.length == 0);
     else {
       tokens.forEach(token => {
-        console.log(d);
         var seconds = (d.getTime() - token.created_at.getTime()) / 1000;
-        console.log(seconds);
         if (seconds > config.TIME) {
           Token.findOneAndUpdate(
             { _id: token._id },
