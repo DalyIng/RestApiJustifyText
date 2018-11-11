@@ -9,6 +9,5 @@ const router = express.Router();
 
 router.route('/')
   .post(validate(validations.justifyText), auth, justifyCtrl.limit, justifyCtrl.justify);
-  //.post(validate(validations.justifyText), auth, justifyCtrl.justify);
   
 export default router;
