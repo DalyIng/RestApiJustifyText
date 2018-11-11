@@ -35,7 +35,7 @@ mongoose.connection.on("error", () => {
   throw new Error(`unable to connect to database: ${config.db}`);
 });
 mongoose.connection.on("connected", () => {
-  console.log(`Connected to database: ${config.db}`);
+  console.log(`Connected to database of: ${config.env}`);
 });
 
 if (config.env === "development") {
