@@ -1,3 +1,5 @@
+/** The Text Justification Method */
+
 function textJustification(words, L) {
     let lines = [],
       index = 0;

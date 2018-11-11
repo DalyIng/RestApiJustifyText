@@ -2,6 +2,8 @@ import jwt from "jsonwebtoken";
 import Token from "../models/token";
 import config from "../../config/env";
 
+/** Generate token with jsonwebtoken, create that token in our DB and return the token */
+
 function generateToken(req, res, next) {
   const jwtPayload = {
     id: "uhosuiheiovhzgigrhop"

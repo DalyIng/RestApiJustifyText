@@ -2,6 +2,8 @@ import Token from "../models/token";
 import justificationCtrl from "./justificationMethod";
 import config from "../../config/env";
 
+/** Test that the token hasn't formatted more than 80000 words, if that's the case we pass to the justify function and return the formatted text  */
+
 function limit(req, res, next) {
   var text = req.body.text;
   var numberWords = text.trim().split(/\s+/).length;

@@ -7,8 +7,12 @@ import Token from "../../models/token";
 require("sinon-mongoose");
 require("sinon-as-promised");
 
+/** Launch our tests */
+
 describe("## Justify API Tests", () => {
   let token;
+
+/** Generate a token before the tests of api/justify to use in the route tests */
 
   before(done => {
     request(app)
@@ -19,6 +23,8 @@ describe("## Justify API Tests", () => {
         done();
       });
   });
+
+/** Generate token with a post to api/token test */
 
   describe("### POST api/token", () => {
     it("should return the token generated successfully", done => {
@@ -34,7 +40,10 @@ describe("## Justify API Tests", () => {
     });
   });
 
+/** Test api/justify */
+
   describe("### POST api/justify", () => {
+    /** First test: RETURN the FORMATTED text successfully */
     it("should return the justified text successfully", done => {
       request(app)
         .post("/api/justify")
@@ -50,6 +59,8 @@ describe("## Justify API Tests", () => {
           done();
         });
     });
+
+    /** Second test: Set WORDS to 81000 and test that user can't FORMAT text anymore and return ERROR 402 PAYMENT REQUIRED */
 
     it("should return Payment Required", done => {
       Token.findOne({ token: token }, { words: true }, (err, result) => {

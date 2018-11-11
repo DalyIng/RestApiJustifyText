@@ -1,5 +1,7 @@
 import mongoose from "mongoose";
 
+/** Token Model */
+
 const TokenSchema = new mongoose.Schema({
   token: {
     type: String,

@@ -31,6 +31,8 @@ cron.schedule(`0 */${config.TimeOfScript} * * * * `, function() {
   });
 });
 
+/** Set Connection to database */
+
 mongoose.connect(config.db);
 mongoose.connection.on("error", () => {
   throw new Error(`unable to connect to database: ${config.db}`);
@@ -42,6 +44,9 @@ mongoose.connection.on("connected", () => {
 if (config.env === "development") {
   mongoose.set("debug", true);
 }
+
+/** Set port and env for our app */
+
 app.listen(config.port, () => {
   console.log(
     `API Server started and listening on port ${config.port} (${config.env})`
