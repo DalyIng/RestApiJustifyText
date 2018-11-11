@@ -5,28 +5,33 @@ import cron from "node-cron";
 import Token from "./server/models/token";
 
 /** Run this script every ... minutes! */
-cron.schedule(`*/${config.TimeOFScript} * * * * `, function() {
-  const d = new Date();
-  Token.find({}, { created_at: 1 }).exec((err, tokens) => {
-    if (err || tokens == undefined || tokens.length == 0);
-    else {
-      tokens.forEach(token => {
-        var seconds = (d.getTime() - token.created_at.getTime()) / 1000;
-        if (seconds > config.TIME) {
-          Token.findOneAndUpdate(
-            { _id: token._id },
-            { $currentDate: { created_at: true } }
-          ).exec();
-          Token.findOneAndUpdate(
-            { _id: token._id },
-            { $set: { words: 0 } }
-          ).exec();
-        } else {
-        }
-      });
-    }
+if (config.env === "development") {
+  cron.schedule(`*/${config.TimeOFScript} * * * * `, function() {
+    const d = new Date();
+    Token.find({}, { created_at: 1 }).exec((err, tokens) => {
+      if (err || tokens == undefined || tokens.length == 0);
+      else {
+        tokens.forEach(token => {
+          var seconds = (d.getTime() - token.created_at.getTime()) / 1000;
+          if (seconds > config.TIME) {
+            Token.findOneAndUpdate(
+              { _id: token._id },
+              { $currentDate: { created_at: true } }
+            ).exec();
+            Token.findOneAndUpdate(
+              { _id: token._id },
+              { $set: { words: 0 } }
+            ).exec();
+          } else {
+          }
+        });
+      }
+    });
   });
-});
+}
+else {
+  console.log("WORK FOR SCHEDULER!")
+}
 
 /** Set Connection to database */
 

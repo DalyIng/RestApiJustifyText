@@ -27,20 +27,24 @@ var _token2 = _interopRequireDefault(_token);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /** Run this script every ... minutes! */
-_nodeCron2.default.schedule("*/" + _env2.default.TimeOFScript + " * * * * ", function () {
-  var d = new Date();
-  _token2.default.find({}, { created_at: 1 }).exec(function (err, tokens) {
-    if (err || tokens == undefined || tokens.length == 0) ;else {
-      tokens.forEach(function (token) {
-        var seconds = (d.getTime() - token.created_at.getTime()) / 1000;
-        if (seconds > _env2.default.TIME) {
-          _token2.default.findOneAndUpdate({ _id: token._id }, { $currentDate: { created_at: true } }).exec();
-          _token2.default.findOneAndUpdate({ _id: token._id }, { $set: { words: 0 } }).exec();
-        } else {}
-      });
-    }
+if (_env2.default.env === "development") {
+  _nodeCron2.default.schedule("*/" + _env2.default.TimeOFScript + " * * * * ", function () {
+    var d = new Date();
+    _token2.default.find({}, { created_at: 1 }).exec(function (err, tokens) {
+      if (err || tokens == undefined || tokens.length == 0) ;else {
+        tokens.forEach(function (token) {
+          var seconds = (d.getTime() - token.created_at.getTime()) / 1000;
+          if (seconds > _env2.default.TIME) {
+            _token2.default.findOneAndUpdate({ _id: token._id }, { $currentDate: { created_at: true } }).exec();
+            _token2.default.findOneAndUpdate({ _id: token._id }, { $set: { words: 0 } }).exec();
+          } else {}
+        });
+      }
+    });
   });
-});
+} else {
+  console.log("WORK FOR SCHEDULER!");
+}
 
 /** Set Connection to database */
 
