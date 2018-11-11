@@ -26,7 +26,8 @@ var _token2 = _interopRequireDefault(_token);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-_nodeCron2.default.schedule("0,9,19,29,39,49,59 * * * *", function () {
+/** Run this script every 10 minutes! */
+_nodeCron2.default.schedule("0 */2 * * * *", function () {
   var d = new Date();
   _token2.default.find({}, { created_at: 1 }).exec(function (err, tokens) {
     if (err || tokens == undefined || tokens.length == 0) ;else {
