@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 
 const mongoose = require('mongoose');
-require('../config/env');
-require('../server/models/token');
+require('../dist/config/env');
+require('../dist/server/models/token');
 
 mongoose.connect(config.db);
 
