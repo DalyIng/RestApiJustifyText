@@ -6,25 +6,21 @@ import Token from "./server/models/token";
 
 /** Run this script every ... minutes! */
 cron.schedule(`*/${config.TimeOFScript} * * * * `, function() {
-  console.log(config.TimeOFScript);
   const d = new Date();
   Token.find({}, { created_at: 1 }).exec((err, tokens) => {
     if (err || tokens == undefined || tokens.length == 0);
     else {
       tokens.forEach(token => {
         var seconds = (d.getTime() - token.created_at.getTime()) / 1000;
-        console.log(seconds);
-        console.log(config.TIME);
         if (seconds > config.TIME) {
           Token.findOneAndUpdate(
             { _id: token._id },
-            { $currentDate: { created_at: true} }
+            { $currentDate: { created_at: true } }
           ).exec();
           Token.findOneAndUpdate(
             { _id: token._id },
             { $set: { words: 0 } }
           ).exec();
-          
         } else {
         }
       });
