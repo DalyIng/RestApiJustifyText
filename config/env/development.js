@@ -5,5 +5,6 @@ export default {
   jwtSecret: "my-api-secret",
   jwtDuration: "5000 hours",
   limitWords: 500,
-  TIME: 60 * 5 // 5 MINUTES ! 
+  TIME: 60 * 5, // 5 MINUTES !
+  TimeOFScript: 1 // Every Minute 
 };
