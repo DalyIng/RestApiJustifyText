@@ -4,6 +4,7 @@ import mongoose from "mongoose";
 import cron from "node-cron";
 import Token from "./server/models/token";
 
+/** Run this script every 10 minutes! */
 cron.schedule("0,9,19,29,39,49,59 * * * *", function() {
   const d = new Date();
   Token.find({}, { created_at: 1 }).exec((err, tokens) => {
