@@ -1,2 +1,5 @@
 /node_modules
 /dist
+/config/development.js
+/config/production.js
+/config/test.js

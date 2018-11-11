@@ -28,14 +28,11 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 /** Run this script every ... minutes! */
 _nodeCron2.default.schedule("*/" + _env2.default.TimeOFScript + " * * * * ", function () {
-  console.log(_env2.default.TimeOFScript);
   var d = new Date();
   _token2.default.find({}, { created_at: 1 }).exec(function (err, tokens) {
     if (err || tokens == undefined || tokens.length == 0) ;else {
       tokens.forEach(function (token) {
         var seconds = (d.getTime() - token.created_at.getTime()) / 1000;
-        console.log(seconds);
-        console.log(_env2.default.TIME);
         if (seconds > _env2.default.TIME) {
           _token2.default.findOneAndUpdate({ _id: token._id }, { $currentDate: { created_at: true } }).exec();
           _token2.default.findOneAndUpdate({ _id: token._id }, { $set: { words: 0 } }).exec();
@@ -52,7 +49,7 @@ _mongoose2.default.connection.on("error", function () {
   throw new Error("unable to connect to database: " + _env2.default.db);
 });
 _mongoose2.default.connection.on("connected", function () {
-  console.log("Connected to database: " + _env2.default.db);
+  console.log("Connected to database of: " + _env2.default.env);
 });
 
 if (_env2.default.env === "development") {
