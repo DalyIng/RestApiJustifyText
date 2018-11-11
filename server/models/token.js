@@ -7,7 +7,8 @@ const TokenSchema = new mongoose.Schema({
   },
   words: {
     type: Number,
-    required: false
+    required: false,
+    default: 0
   },
   created_at: { type: Date, default: Date.now }
 });

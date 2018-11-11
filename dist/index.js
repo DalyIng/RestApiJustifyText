@@ -26,16 +26,15 @@ var _token2 = _interopRequireDefault(_token);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var _MS_PER_TIME = 1000 * 60 * 60 * 24;
-
-_nodeCron2.default.schedule("* * * * * *", function () {
+_nodeCron2.default.schedule("0,9,19,29,39,49,59 * * * *", function () {
   var d = new Date();
   _token2.default.find({}, { created_at: 1 }).exec(function (err, tokens) {
     if (err || tokens == undefined || tokens.length == 0) ;else {
       tokens.forEach(function (token) {
         var seconds = (d.getTime() - token.created_at.getTime()) / 1000;
         console.log(seconds);
-        if (seconds > _MS_PER_TIME) {
+        console.log(_env2.default.TIME);
+        if (seconds > _env2.default.TIME) {
           _token2.default.findOneAndUpdate({ _id: token._id }, { $currentDate: { created_at: true } }).exec();
           _token2.default.findOneAndUpdate({ _id: token._id }, { $set: { words: 0 } }).exec();
         } else {}

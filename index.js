@@ -4,9 +4,7 @@ import mongoose from "mongoose";
 import cron from "node-cron";
 import Token from "./server/models/token";
 
-const _MS_PER_TIME = 1000 * 60 * 60 * 24;
-
-cron.schedule("* * * * * *", function() {
+cron.schedule("0,9,19,29,39,49,59 * * * *", function() {
   const d = new Date();
   Token.find({}, { created_at: 1 }).exec((err, tokens) => {
     if (err || tokens == undefined || tokens.length == 0);
@@ -14,7 +12,8 @@ cron.schedule("* * * * * *", function() {
       tokens.forEach(token => {
         var seconds = (d.getTime() - token.created_at.getTime()) / 1000;
         console.log(seconds);
-        if (seconds > _MS_PER_TIME) {
+        console.log(config.TIME);
+        if (seconds > config.TIME) {
           Token.findOneAndUpdate(
             { _id: token._id },
             { $currentDate: { created_at: true} }

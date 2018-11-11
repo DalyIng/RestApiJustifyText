@@ -17,8 +17,7 @@ function generateToken(req, res, next) {
 
 function creatToken(req, res, next) {
   Token.create({
-    token: req.token,
-    words: 0
+    token: req.token
   })
   
   next();

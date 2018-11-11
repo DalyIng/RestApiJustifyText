@@ -16,17 +16,13 @@ function limit(req, res, next) {
       if (result.words + numberWords < config.limitWords) {
         return next();
       } else {
-        res.status(402).json({
-          message: "By this request, you will pass the limit of 80000 words",
-          error: "Payment Required"
-        });
+        res.status(402).send("Payment Required");
       }
     });
 }
 
 function justify(req, res) {
   var token = req.headers.authorization.substring(7);
-
   Token.findOne({ token: token }, { words: true }, (err, result) => {
     if (err) {
       console.log("WRONG");

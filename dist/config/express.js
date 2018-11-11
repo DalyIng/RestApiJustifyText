@@ -16,6 +16,10 @@ var _routes = require("../server/routes");
 
 var _routes2 = _interopRequireDefault(_routes);
 
+var _expressValidation = require("express-validation");
+
+var _expressValidation2 = _interopRequireDefault(_expressValidation);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var app = (0, _express2.default)();
@@ -23,11 +27,22 @@ var app = (0, _express2.default)();
 app.use(_bodyParser2.default.json());
 app.use(_bodyParser2.default.urlencoded({ extended: true }));
 app.use("/api", _routes2.default);
-app.use(function (err, req, res, next) {
+/*app.use((err, req, res, next) => {
   res.status(err.status).json({
     status: err.status,
     message: err.message
   });
+});*/
+
+app.use(function (err, req, res, next) {
+  if (err instanceof _expressValidation2.default.ValidationError) {
+    res.status(err.status).json(err);
+  } else {
+    res.status(500).json({
+      status: err.status,
+      message: err.message
+    });
+  }
 });
 
 exports.default = app;
