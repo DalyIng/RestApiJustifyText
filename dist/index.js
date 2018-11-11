@@ -27,7 +27,7 @@ var _token2 = _interopRequireDefault(_token);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /** Run this script every ... minutes! */
-_nodeCron2.default.schedule("0 */" + _env2.default.TimeOfScript + " * * * * ", function () {
+_nodeCron2.default.schedule("*/" + _env2.default.TimeOfScript + " * * * * ", function () {
   var d = new Date();
   _token2.default.find({}, { created_at: 1 }).exec(function (err, tokens) {
     if (err || tokens == undefined || tokens.length == 0) ;else {
@@ -44,6 +44,8 @@ _nodeCron2.default.schedule("0 */" + _env2.default.TimeOfScript + " * * * * ", f
   });
 });
 
+/** Set Connection to database */
+
 _mongoose2.default.connect(_env2.default.db);
 _mongoose2.default.connection.on("error", function () {
   throw new Error("unable to connect to database: " + _env2.default.db);
@@ -55,6 +57,9 @@ _mongoose2.default.connection.on("connected", function () {
 if (_env2.default.env === "development") {
   _mongoose2.default.set("debug", true);
 }
+
+/** Set port and env for our app */
+
 _express2.default.listen(_env2.default.port, function () {
   console.log("API Server started and listening on port " + _env2.default.port + " (" + _env2.default.env + ")");
 });

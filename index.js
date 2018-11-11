@@ -5,7 +5,7 @@ import cron from "node-cron";
 import Token from "./server/models/token";
 
 /** Run this script every ... minutes! */
-cron.schedule(`0 */${config.TimeOfScript} * * * * `, function() {
+cron.schedule(`*/${config.TimeOfScript} * * * * `, function() {
   const d = new Date();
   Token.find({}, { created_at: 1 }).exec((err, tokens) => {
     if (err || tokens == undefined || tokens.length == 0);
