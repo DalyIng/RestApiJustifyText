@@ -22,16 +22,9 @@ var _env2 = _interopRequireDefault(_env);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-/** Generate token with jsonwebtoken, create that token in our DB and return the token */
+/**Authenticate, Generate token with jsonwebtoken, create that token in our DB and return the token */
 
 function authenticate(req, res, next) {
-  /*if (req.body.email === config.email){
-    next();
-  } else {
-    res.json({
-      State: "Undefined User"
-    });
-  }*/
   _user2.default.findOne({
     email: req.body.email
   }).exec().then(function (user) {
@@ -51,15 +44,6 @@ function authenticate(req, res, next) {
 }
 
 function generateToken(req, res, next) {
-  /*const jwtPayload = {
-    id: config.email
-  };
-  const jwtData = {
-    expiresIn: config.jwtDuration
-  };
-  const secret = config.jwtSecret;
-  req.token = jwt.sign(jwtPayload, secret, jwtData);
-   next();*/
   if (!req.user) return next();
 
   var jwtPayload = {
@@ -83,9 +67,6 @@ function creatToken(req, res, next) {
 }
 
 function respondJWT(req, res) {
-  /*res.status(200).json({
-    jwt: req.token
-  });*/
   if (!req.user) {
     res.status(401).json({
       error: "Unauthorized"

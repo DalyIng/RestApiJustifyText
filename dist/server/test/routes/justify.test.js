@@ -18,10 +18,6 @@ var _token = require("../../models/token");
 
 var _token2 = _interopRequireDefault(_token);
 
-var _user = require("../../models/user");
-
-var _user2 = _interopRequireDefault(_user);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 require("sinon-mongoose");
@@ -34,17 +30,6 @@ describe("## Justify API Tests", function () {
       user = void 0;
 
   /** Generate a token before the tests of api/justify to use in the route tests */
-
-  /*before(done => {
-    User.create({
-      email: "test@user.com",
-      password: "testuser"
-    }).then(u => {
-      console.log(u);
-      user = u;
-      done();
-    });
-  });*/
 
   before(function (done) {
     (0, _supertestAsPromised2.default)(_index2.default).post("/api/token").send({ email: "test@user.com", password: "testuser" }).then(function (res) {

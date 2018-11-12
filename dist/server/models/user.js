@@ -14,6 +14,8 @@ var _bcrypt2 = _interopRequireDefault(_bcrypt);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+/** User Model */
+
 var UserSchema = new _mongoose2.default.Schema({
   email: {
     type: String,
@@ -26,6 +28,8 @@ var UserSchema = new _mongoose2.default.Schema({
     trim: true
   }
 });
+
+/** Hash Passwords before saving in our DB */
 
 UserSchema.pre('save', function (next) {
   var user = this;
@@ -45,6 +49,8 @@ UserSchema.pre('save', function (next) {
     });
   });
 });
+
+/** Method to decrypt passwords when asking for a new token */
 
 UserSchema.methods.comparePassword = function (toCompare, done) {
   _bcrypt2.default.compare(toCompare, this.password, function (err, isMatch) {

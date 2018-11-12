@@ -10,6 +10,8 @@ var _user2 = _interopRequireDefault(_user);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+/** Create a user in our DB */
+
 function create(req, res, next) {
   _user2.default.create({
     email: req.body.email,
