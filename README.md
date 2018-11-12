@@ -1,4 +1,4 @@
-REST API for text justification / API REST qui justifie un texte passé en paramètre
+REST API for text justification | API REST qui justifie un texte passé en paramètre
 
 KEYWORDS: Node, ES6, Gulb, Babel, Nodemon, Mocha, Rest API
 
