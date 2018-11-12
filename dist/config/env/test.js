@@ -11,6 +11,7 @@ exports.default = {
     jwtDuration: '5000 hours',
     limitWords: 500,
     TIME: 60 * 5, // 5 MINUTES
-    TimeOFScript: 1 // Every Minute
+    TimeOFScript: 1, // Every Minute
+    email: "foo@bar.com"
 };
 module.exports = exports['default'];

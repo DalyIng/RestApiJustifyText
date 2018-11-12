@@ -47,6 +47,7 @@ function justify(req, res) {
   var words = text.split(" ");
   var numberWords = text.trim().split(/\s+/).length;
   var justifiedTextList = _justificationMethod2.default.textJustification(words, 80);
+  console.log(justifiedTextList);
   var justifiedText = justifiedTextList.join("\n");
   var query = { token: token };
   _token2.default.findOneAndUpdate(query, { $inc: { words: numberWords } }, {
@@ -58,6 +59,7 @@ function justify(req, res) {
 
     console.log(doc);
   });
+  /** CONTENT TYPE: text/plain */
   res.set("Content-Type", "text/plain");
   res.send(justifiedText);
 }

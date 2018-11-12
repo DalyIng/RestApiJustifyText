@@ -10,27 +10,27 @@ require("sinon-as-promised");
 /** Launch our tests */
 
 describe("## Justify API Tests", () => {
-  let token;
+  let token, user;
 
-/** Generate a token before the tests of api/justify to use in the route tests */
+  /** Generate a token before the tests of api/justify to use in the route tests */
 
   before(done => {
     request(app)
       .post("/api/token")
-      .send()
+      .send({ email: "test@user.com", password: "testuser" })
       .then(res => {
         token = res.body.jwt;
         done();
       });
   });
 
-/** Generate token with a post to api/token test */
+  /** Generate token with a post to api/token test */
 
   describe("### POST api/token", () => {
     it("should return the token generated successfully", done => {
       request(app)
         .post("/api/token")
-        .send()
+        .send({ email: "test@user.com", password: "testuser" })
         .expect(httpStatus.OK)
         .then(res => {
           console.log(res.body.jwt);
@@ -40,7 +40,7 @@ describe("## Justify API Tests", () => {
     });
   });
 
-/** Test api/justify */
+  /** Test api/justify */
 
   describe("### POST api/justify", () => {
     /** First test: RETURN the FORMATTED text successfully */

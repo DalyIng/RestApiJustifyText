@@ -18,6 +18,10 @@ var _token = require("../../models/token");
 
 var _token2 = _interopRequireDefault(_token);
 
+var _user = require("../../models/user");
+
+var _user2 = _interopRequireDefault(_user);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 require("sinon-mongoose");
@@ -26,12 +30,24 @@ require("sinon-as-promised");
 /** Launch our tests */
 
 describe("## Justify API Tests", function () {
-  var token = void 0;
+  var token = void 0,
+      user = void 0;
 
   /** Generate a token before the tests of api/justify to use in the route tests */
 
+  /*before(done => {
+    User.create({
+      email: "test@user.com",
+      password: "testuser"
+    }).then(u => {
+      console.log(u);
+      user = u;
+      done();
+    });
+  });*/
+
   before(function (done) {
-    (0, _supertestAsPromised2.default)(_index2.default).post("/api/token").send().then(function (res) {
+    (0, _supertestAsPromised2.default)(_index2.default).post("/api/token").send({ email: "test@user.com", password: "testuser" }).then(function (res) {
       token = res.body.jwt;
       done();
     });
@@ -41,7 +57,7 @@ describe("## Justify API Tests", function () {
 
   describe("### POST api/token", function () {
     it("should return the token generated successfully", function (done) {
-      (0, _supertestAsPromised2.default)(_index2.default).post("/api/token").send().expect(_httpStatus2.default.OK).then(function (res) {
+      (0, _supertestAsPromised2.default)(_index2.default).post("/api/token").send({ email: "test@user.com", password: "testuser" }).expect(_httpStatus2.default.OK).then(function (res) {
         console.log(res.body.jwt);
         (0, _chai.expect)(res.body.jwt).to.exist;
         done();

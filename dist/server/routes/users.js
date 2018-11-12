@@ -8,25 +8,25 @@ var _express = require("express");
 
 var _express2 = _interopRequireDefault(_express);
 
-var _token = require("../controllers/token");
+var _user = require("../controllers/user");
 
-var _token2 = _interopRequireDefault(_token);
+var _user2 = _interopRequireDefault(_user);
 
 var _expressValidation = require("express-validation");
 
 var _expressValidation2 = _interopRequireDefault(_expressValidation);
 
-var _token3 = require("./validation/token");
+var _users = require("./validation/users");
 
-var _token4 = _interopRequireDefault(_token3);
+var _users2 = _interopRequireDefault(_users);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var router = _express2.default.Router();
 
 router.route("/")
-/** POST /api/token Get JWT authentication token */
-.post((0, _expressValidation2.default)(_token4.default.generateToken), _token2.default.authenticate, _token2.default.generateToken, _token2.default.creatToken, _token2.default.respondJWT);
+/** POST /api/users - Create new user */
+.post((0, _expressValidation2.default)(_users2.default.createUser), _user2.default.create);
 
 exports.default = router;
 module.exports = exports["default"];

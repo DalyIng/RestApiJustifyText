@@ -4,8 +4,9 @@ import mongoose from "mongoose";
 import cron from "node-cron";
 import Token from "./server/models/token";
 
-/** Run this script every ... minutes! */
-if (config.env === "development") {
+/** Run this script every 1 minute in development mode! */
+
+if (config.env === "development" || config.env === "test") {
   cron.schedule(`*/${config.TimeOFScript} * * * * `, function() {
     const d = new Date();
     Token.find({}, { created_at: 1 }).exec((err, tokens) => {
@@ -29,7 +30,10 @@ if (config.env === "development") {
     });
   });
 }
+
+/** Run the script /bin/restoreWords script due to Heroki Scheduler every hour */
 else {
+
   console.log("WORK FOR SCHEDULER!")
 }
 

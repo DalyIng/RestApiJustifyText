@@ -44,6 +44,7 @@
     "http-status": "^1.2.0",
     "joi": "^7.3.0",
     "jsonwebtoken": "^7.4.3",
+    "justified": "^1.0.1",
     "mocha": "^2.5.3",
     "mongoose": "^4.3.7",
     "node-cron": "^2.0.3",

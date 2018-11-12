@@ -26,8 +26,9 @@ var _token2 = _interopRequireDefault(_token);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-/** Run this script every ... minutes! */
-if (_env2.default.env === "development") {
+/** Run this script every 1 minute in development mode! */
+
+if (_env2.default.env === "development" || _env2.default.env === "test") {
   _nodeCron2.default.schedule("*/" + _env2.default.TimeOFScript + " * * * * ", function () {
     var d = new Date();
     _token2.default.find({}, { created_at: 1 }).exec(function (err, tokens) {
@@ -42,9 +43,13 @@ if (_env2.default.env === "development") {
       }
     });
   });
-} else {
-  console.log("WORK FOR SCHEDULER!");
 }
+
+/** Run the script /bin/restoreWords script due to Heroki Scheduler every hour */
+else {
+
+    console.log("WORK FOR SCHEDULER!");
+  }
 
 /** Set Connection to database */
 
