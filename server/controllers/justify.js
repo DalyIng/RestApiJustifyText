@@ -5,8 +5,8 @@ import config from "../../config/env";
 /** Test that the token hasn't formatted more than 80000 words, if that's the case we pass to the justify function and return the formatted text  */
 
 function limit(req, res, next) {
-  var text = req.body.text;
-  var numberWords = text.trim().split(/\s+/).length;
+  let text = req.body.text;
+  let numberWords = text.trim().split(/\s+/).length;
   Token.findOne(
     {
       token: req.headers.authorization.substring(7)
@@ -24,21 +24,30 @@ function limit(req, res, next) {
 }
 
 function justify(req, res) {
-  var token = req.headers.authorization.substring(7);
+  let token = req.headers.authorization.substring(7);
   Token.findOne({ token: token }, { words: true }, (err, result) => {
     if (err) {
-      console.log("WRONG");
+      console.log("NOT FOUND");
     } else {
       console.log(result);
     }
   });
-  var text = req.body.text;
-  var words = text.split(" ");
-  var numberWords = text.trim().split(/\s+/).length;
-  var justifiedTextList = justificationCtrl.textJustification(words, 80);
-  console.log(justifiedTextList);
-  var justifiedText = justifiedTextList.join("\n");
-  var query = { token: token };
+  let text = req.body.text;
+  let justifiedParagraphes = [];
+  let paragraphes = text.split(/[\r\n\t]+/gm);
+  for (let i=0; i < paragraphes.length; i++){
+    let wordsParagraphe = paragraphes[i].split(" ");
+    let justifiedParagraphe = justificationCtrl.textJustification(wordsParagraphe, 80);
+    let justifiedTextList = justifiedParagraphe.join("\n");
+    justifiedParagraphes.push(justifiedTextList);
+  }
+  console.log(justifiedParagraphes.join("\n"));
+  let justifiedText = justifiedParagraphes.join("\n");
+  let words = text.split(" ");
+  let numberWords = text.trim().split(/\s+/).length;
+  /*let justifiedTextList = justificationCtrl.textJustification(words, 80);
+  let justifiedText = justifiedTextList.join("\n");*/
+  let query = { token: token };
   Token.findOneAndUpdate(
     query,
     { $inc: { words: numberWords } },

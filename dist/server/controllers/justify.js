@@ -38,17 +38,26 @@ function justify(req, res) {
   var token = req.headers.authorization.substring(7);
   _token2.default.findOne({ token: token }, { words: true }, function (err, result) {
     if (err) {
-      console.log("WRONG");
+      console.log("NOT FOUND");
     } else {
       console.log(result);
     }
   });
   var text = req.body.text;
+  var justifiedParagraphes = [];
+  var paragraphes = text.split(/[\r\n\t]+/gm);
+  for (var i = 0; i < paragraphes.length; i++) {
+    var wordsParagraphe = paragraphes[i].split(" ");
+    var justifiedParagraphe = _justificationMethod2.default.textJustification(wordsParagraphe, 80);
+    var justifiedTextList = justifiedParagraphe.join("\n");
+    justifiedParagraphes.push(justifiedTextList);
+  }
+  console.log(justifiedParagraphes.join("\n"));
+  var justifiedText = justifiedParagraphes.join("\n");
   var words = text.split(" ");
   var numberWords = text.trim().split(/\s+/).length;
-  var justifiedTextList = _justificationMethod2.default.textJustification(words, 80);
-  console.log(justifiedTextList);
-  var justifiedText = justifiedTextList.join("\n");
+  /*let justifiedTextList = justificationCtrl.textJustification(words, 80);
+  let justifiedText = justifiedTextList.join("\n");*/
   var query = { token: token };
   _token2.default.findOneAndUpdate(query, { $inc: { words: numberWords } }, {
     new: true

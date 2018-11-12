@@ -11,6 +11,6 @@ exports.default = {
   jwtDuration: "5000 hours",
   limitWords: 5000,
   TIME: 60 * 5, // 5 MINUTES !
-  TimeOFScript: 1 // Every Minute  
+  TimeOFScript: 1 // Every Minute
 };
 module.exports = exports["default"];
