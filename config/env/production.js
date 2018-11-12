@@ -1,6 +1,6 @@
 export default {
   env: "production",
-  db: "mongodb://tictactrip:Azerty02@ds159293.mlab.com:59293/tictactrip-prod",
+  db: "mongodb://<user>:<password>@ds253353.mlab.com:53353/<databaseName>",
   port: process.env.PORT,
   jwtSecret: "my-api-secret",
   jwtDuration: "5000 hours",
