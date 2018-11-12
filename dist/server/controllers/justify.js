@@ -56,8 +56,6 @@ function justify(req, res) {
   var justifiedText = justifiedParagraphes.join("\n");
   var words = text.split(" ");
   var numberWords = text.trim().split(/\s+/).length;
-  /*let justifiedTextList = justificationCtrl.textJustification(words, 80);
-  let justifiedText = justifiedTextList.join("\n");*/
   var query = { token: token };
   _token2.default.findOneAndUpdate(query, { $inc: { words: numberWords } }, {
     new: true
